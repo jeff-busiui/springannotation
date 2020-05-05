@@ -1,13 +1,13 @@
 package com.atguigu.springannotation.config;
 
-import com.atguigu.springannotation.dao.childrenDao.MyChildrenDao;
-import com.atguigu.springannotation.domain.Persion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RestController;
+import com.atguigu.springannotation.dao.childrenDao.MyChildrenDao;
+import com.atguigu.springannotation.domain.Persion;
 
 /**
  * @author sunbaojin
@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {MyChildrenDao.class})
 }
 )
-public class MyConfig {
+public class MyComponentScanConfig {
 
     @Bean
     public Persion myPersion() {
-        return new Persion("lisi", 18l);
+        return new Persion("lisi", 18);
     }
 }
