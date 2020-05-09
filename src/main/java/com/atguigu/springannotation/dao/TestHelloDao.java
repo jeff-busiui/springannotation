@@ -1,5 +1,6 @@
 package com.atguigu.springannotation.dao;
 
+import com.atguigu.springannotation.domain.Persion;
 import org.springframework.stereotype.Repository;
 
 /**

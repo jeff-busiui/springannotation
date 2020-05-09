@@ -144,6 +144,13 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>5.2.2.RELEASE</version>
+        </dependency>
+
+
     </dependencies>
 
     <!-- ... -->

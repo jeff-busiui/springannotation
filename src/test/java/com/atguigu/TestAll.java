@@ -1,12 +1,12 @@
 package com.atguigu;
 
-import com.atguigu.springannotation.config.MyComponentScanConfig;
-import com.atguigu.springannotation.config.MyConditionConfig;
-import com.atguigu.springannotation.config.MyScopeConfig;
+import com.atguigu.springannotation.aop.MathDiv;
+import com.atguigu.springannotation.config.*;
 import com.atguigu.springannotation.domain.Persion;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.util.Assert;
 
 import java.util.Iterator;
 
@@ -38,12 +38,7 @@ public class TestAll {
         AnnotationConfigApplicationContext annotationConfigApplicationContext =
                 new AnnotationConfigApplicationContext(MyScopeConfig.class);
         // 获取扫描的所有类
-        String[] beanDefinitionNames = annotationConfigApplicationContext.getBeanFactory().getBeanNamesForType(Persion.class);
-        // 遍历
-        for (int i=0; i< beanDefinitionNames.length; i++ ) {
-            // 只打印为自己的
-            log.info("====="+beanDefinitionNames[i]);
-        }
+        printAllBeanName(annotationConfigApplicationContext);
         // scope 作用域，默认单例，获取kk对象
         Object kk1_1 = annotationConfigApplicationContext.getBean("kk_1");
         Object kk1_2 = annotationConfigApplicationContext.getBean("kk_1");
@@ -64,9 +59,23 @@ public class TestAll {
     public void testCondition(){
         AnnotationConfigApplicationContext annotationConfigApplicationContext =
                 new AnnotationConfigApplicationContext(MyConditionConfig.class);
+
+    }
+
+    @Test
+    public void testInit(){
+        AnnotationConfigApplicationContext annotationConfigApplicationContext =
+                new AnnotationConfigApplicationContext(MyInitConfig.class);
+        printNameByBeanClass(annotationConfigApplicationContext,Persion.class);
+
+        annotationConfigApplicationContext.close();
+
+    }
+
+    public  void printNameByBeanClass(AnnotationConfigApplicationContext annotationConfigApplicationContext,Class classBean){
         // 获取扫描的所有类
         // 获取扫描的所有类
-        String[] beanDefinitionNames = annotationConfigApplicationContext.getBeanFactory().getBeanNamesForType(Persion.class);
+        String[] beanDefinitionNames = annotationConfigApplicationContext.getBeanFactory().getBeanNamesForType(classBean);
         // 遍历
         for (int i=0; i< beanDefinitionNames.length; i++ ) {
             // 只打印为自己的
@@ -74,5 +83,40 @@ public class TestAll {
         }
     }
 
+    public  void printAllBeanName(AnnotationConfigApplicationContext annotationConfigApplicationContext){
+        // 获取扫描的所有类
+        // 获取扫描的所有类
+        String[] beanDefinitionNames = annotationConfigApplicationContext.getBeanDefinitionNames();
+        // 遍历
+        for (int i=0; i< beanDefinitionNames.length; i++ ) {
+            // 只打印为自己的
+            log.info("====="+beanDefinitionNames[i]);
+        }
+    }
+
+
+    @Test
+    public  void testAop() {
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(MyAopConfig.class);
+        applicationContext.refresh();
+        printAllBeanName(applicationContext);
+        // 获取bean
+        MathDiv bean = (MathDiv) applicationContext.getBean("getMathDiv");
+        // 调用除法
+        bean.testMethod(1,2);
+
+        // 调用除法
+        bean.testMethod(1,0);
+//        System.out.println(bean);
+    }
+
+    @Test
+    public void testAssert(){
+        Assert.isTrue(false,"我错了");
+//        Assert.hasLength();
+        Persion persion =new Persion();
+
+    }
 
 }
